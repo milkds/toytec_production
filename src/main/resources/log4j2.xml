@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO">
+    <properties>
+        <property name="string_log">%-23d{dd-MM-yyyy HH:mm:ss}[%-5p] %-42l %m%n</property>
+    </properties>
+    <Appenders>
+        <Console name="console">
+            <PatternLayout>
+                <pattern>${string_log}</pattern>
+            </PatternLayout>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <appender-ref ref="console"/>
+        </Root>
+        <Logger name="org.hibernate" additivity="false" level="error"/>
+    </Loggers>
+</configuration>
