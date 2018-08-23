@@ -5,7 +5,15 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.*;
 
+/***
+ * Check site for updates - checks all categories and if any new/deleted item found -
+ * parses new item/changes status to deleted. Than it loads all items from db and checks stock
+ *
+ * Check Stock for updates - loads all items from db and checks stock.
+ */
+
 public class Controller {
+
 
     public static void main(String[] args) {
       // new Controller().checkSiteForUpdates();
