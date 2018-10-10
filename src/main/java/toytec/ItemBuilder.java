@@ -21,12 +21,16 @@ public class ItemBuilder {
 
     public ToyItem buildToyItem (WebDriver driver){
         ToyItem item = new ToyItem();
+        System.out.println("getting item: " + driver.getCurrentUrl());
 
         String sku = getSku(driver);
         String itemName = getItemName(driver);
         String description = getDescription(driver);
         String mainImgUrl = getMainImgUrl(driver);
-        String imgUrls = getImgUrls(driver);
+        String imgUrls = "";
+        if (mainImgUrl.length()>0){
+            imgUrls = getImgUrls(driver);
+        }
         String itemMake = getItemMake(driver);
         BigDecimal priceFrom = getPriceFrom(driver);
         BigDecimal priceTo = getPriceTo(driver);
@@ -132,7 +136,18 @@ public class ItemBuilder {
     private String getStockAvailability(WebDriver driver) {
         String availability = "";
         WebElement stockSkuEl = driver.findElement(By.className("product-info-stock-sku"));
-        WebElement availabilityEL = stockSkuEl.findElement(By.cssSelector("div[title='Availability']"));
+        WebElement availabilityEL;
+        try{
+            availabilityEL = stockSkuEl.findElement(By.cssSelector("div[title='Availability']"));
+        }
+        catch (NoSuchElementException e){
+            try {
+                availabilityEL = stockSkuEl.findElement(By.cssSelector("p[title='Availability']"));
+            }
+            catch (NoSuchElementException ex){
+                return "";
+            }
+        }
         availability = availabilityEL.getText();
 
 
@@ -175,12 +190,18 @@ public class ItemBuilder {
 
             //choices
             WebElement innerOptHold = opt.findElement(By.className("control"));
-            innerOptHold = innerOptHold.findElement(By.cssSelector("div[class='nested options-list']"));
-            List<WebElement> innerOptList = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));
+            try{
+                innerOptHold = innerOptHold.findElement(By.cssSelector("div[class='nested options-list']"));
+            }
+            catch (NoSuchElementException e){
+
+            }
+            //List<WebElement> innerOptList = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));
+            List<WebElement> innerOptList = innerOptHold.findElements(By.className("product-name"));
             for (WebElement choice: innerOptList){
                 ToyOption option = new ToyOption();
                 option.setOptionGroup(label.getText());
-                choice = choice.findElement(By.className("label"));
+               // choice = choice.findElement(By.className("product-name"));
                 String choiceText = choice.getText();
                 if (choiceText.contains("$")){
                     String choiceName = StringUtils.substringBefore(choiceText, " [");
@@ -266,7 +287,13 @@ public class ItemBuilder {
     private String getItemMake(WebDriver driver) {
         String itemMake = "";
 
-        WebElement moreInfo = driver.findElement(By.id("tab-label-additional-title"));
+        WebElement moreInfo;
+        try{
+            moreInfo = driver.findElement(By.id("tab-label-additional-title"));
+        }
+        catch (NoSuchElementException e){
+            return "";
+        }
         moreInfo.click();
 
         while (true){
@@ -366,9 +393,24 @@ public class ItemBuilder {
 
     private String getMainImgUrl(WebDriver driver) {
         String mainImgUrl = "";
-        WebElement mainImgEl = driver.findElement(By.cssSelector("div[class='gallery-placeholder']"));
+        WebElement mainImgEl = null;
         System.out.println("waiting for gallery");
         int counter = 0;
+        while(true){
+            try {
+                mainImgEl = driver.findElement(By.cssSelector("div[class='gallery-placeholder']"));
+                break;
+            }
+            catch(NoSuchElementException e){
+                    counter++;
+                    if (counter==20){
+                        return "";
+                    }
+                    bad_sleep(500);
+            }
+        }
+
+        counter = 0;
         while (mainImgEl.findElements(By.cssSelector("div[class='fotorama__stage__shaft fotorama__grab']")).size()==0){
             bad_sleep(100);
             counter++;

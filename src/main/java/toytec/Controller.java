@@ -16,7 +16,7 @@ public class Controller {
 
 
     public static void main(String[] args) {
-      // new Controller().checkSiteForUpdates();
+       new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
     }
 
