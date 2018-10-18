@@ -57,14 +57,14 @@ public class ToyDao {
         }*/
     }
 
-    public static ToyItem getItemByWebLink(String link, Session session) {
+    public static ToyItem getItemByWebLink(String link, Session session, String categoryName) {
         ToyItem item = null;
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ToyItem> crQ = builder.createQuery(ToyItem.class);
         Root<ToyItem> root = crQ.from(ToyItem.class);
-        crQ.where(builder.equal(root.get("itemLink"), link));
-
+        crQ.where(builder.and(builder.equal(root.get("itemLink"), link),
+                              builder.equal(root.get("itemCategory"), categoryName)));
         Query q = session.createQuery(crQ);
         item = (ToyItem)q.getSingleResult();
 

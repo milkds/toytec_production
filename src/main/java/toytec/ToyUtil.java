@@ -54,11 +54,12 @@ public class ToyUtil {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
 
+        String categoryName= keeper.getCategoryName();
         //making Set of item links from web page - for quicker search.
         Set<String> webLinkSet = new HashSet<>(itemLinksFromCategory);
         for (String link: itemLinksFromDB){
             if (!webLinkSet.contains(link)){
-                ToyItem item = ToyDao.getItemByWebLink(link, session);
+                ToyItem item = ToyDao.getItemByWebLink(link, session, categoryName);
                 item.setItemStatus("DELETED");
                 ToyDao.updateItem(session,item);
                 logger.info("Status set to DELETED for: "+item);

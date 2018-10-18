@@ -17,7 +17,29 @@ public class Controller {
 
     public static void main(String[] args) {
        new Controller().checkSiteForUpdates();
+     //  new Controller().checkDupes();
         // new Controller().checkStockForUpdates();
+    }
+
+    private void checkDupes(){
+        Session session = ToyDao.getSession();
+        List<ToyItem> items = ToyDao.getAllItems(session);
+        Map<String, ToyItem> itemMap = new HashMap<>();
+        for (ToyItem item: items){
+            String link = item.getItemLink();
+            if (!itemMap.containsKey(link)){
+                itemMap.put(link,item);
+            }
+            else {
+                String newCategory = item.getItemCategory();
+                String oldCategory = itemMap.get(link).getItemCategory();
+                if (newCategory.equals(oldCategory)){
+                    System.out.println(item.getItemID());
+                }
+            }
+        }
+
+        HibernateUtil.shutdown();
     }
 
     private void checkStockForUpdates(){
