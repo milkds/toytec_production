@@ -21,7 +21,7 @@ public class ItemBuilder {
 
     public ToyItem buildToyItem (WebDriver driver){
         ToyItem item = new ToyItem();
-        System.out.println("getting item: " + driver.getCurrentUrl());
+      //  System.out.println("getting item: " + driver.getCurrentUrl());
 
         String sku = getSku(driver);
         String itemName = getItemName(driver);
@@ -43,7 +43,9 @@ public class ItemBuilder {
         String metaDesc = getMetaDesc(driver);
         List<ToyOption> options = getOptions(driver);
 
-        System.out.println("SKU: " + sku);
+        //notification part
+
+        /*System.out.println("SKU: " + sku);
         System.out.println("Item Name:" + itemName);
         System.out.println("Description: " + description);
         System.out.println("Main Img URL: " + mainImgUrl);
@@ -61,7 +63,7 @@ public class ItemBuilder {
 
         for (ToyOption option : options){
             System.out.println(option);
-        }
+        }*/
 
         item.setSku(sku);
         item.setItemName(itemName);
@@ -166,13 +168,13 @@ public class ItemBuilder {
         bad_sleep(5000);
 
         WebElement optionsEl = driver.findElement(By.className("bundle-options-container"));
-        System.out.println("options found");
+       // System.out.println("options found");
         optionsEl = optionsEl.findElement(By.id("product_addtocart_form"));
-        System.out.println("form found");
+       // System.out.println("form found");
         optionsEl = optionsEl.findElement(By.className("bundle-options-wrapper"));
-        System.out.println("inner options element found");
+      //  System.out.println("inner options element found");
         List<WebElement> optionsList = optionsEl.findElements(By.cssSelector("div[class='field option ']"));
-        System.out.println(optionsList.size());
+      //  System.out.println(optionsList.size());
         List<WebElement> optionsListRequired = optionsEl.findElements(By.cssSelector("div[class='field option  required']"));
         optionsList.addAll(optionsListRequired);
 
@@ -312,7 +314,7 @@ public class ItemBuilder {
         if (additionalRows.size()>1){
             logUnexpectedData("unexpected additional info(rows qty)", driver.getCurrentUrl());
         }
-        System.out.println("additional rows qty: "+additionalRows.size());
+       // System.out.println("additional rows qty: "+additionalRows.size());
 
         return itemMake;
     }
@@ -394,7 +396,7 @@ public class ItemBuilder {
     private String getMainImgUrl(WebDriver driver) {
         String mainImgUrl = "";
         WebElement mainImgEl = null;
-        System.out.println("waiting for gallery");
+       // System.out.println("waiting for gallery");
         int counter = 0;
         while(true){
             try {
@@ -425,7 +427,7 @@ public class ItemBuilder {
             mainImgEl = mainImgEl.findElement(By.cssSelector("div[class='fotorama__stage__shaft']"));
         }
         mainImgEl = mainImgEl.findElement(By.cssSelector("div[data-active='true']"));
-        System.out.println("searching for img tag");
+       // System.out.println("searching for img tag");
         while (mainImgEl.findElements(By.tagName("img")).size()==0){
             bad_sleep(50);
         }

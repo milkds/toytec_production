@@ -16,8 +16,8 @@ public class Controller {
 
 
     public static void main(String[] args) {
-       new Controller().checkSiteForUpdates();
-     //  new Controller().checkDupes();
+      // new Controller().testStatistics();
+         new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
     }
 
@@ -42,6 +42,12 @@ public class Controller {
         HibernateUtil.shutdown();
     }
 
+    private void testStatistics(){
+        Session session = ToyDao.getSession();
+        LogStatistics statistics = new LogStatistics(session);
+        HibernateUtil.shutdown();
+    }
+
     private void checkStockForUpdates(){
         Session session = ToyDao.getSession();
         ToyUtil.checkAllItemsForStockUpdates(session);
@@ -50,18 +56,22 @@ public class Controller {
 
     private void checkSiteForUpdates(){
         Session session = ToyDao.getSession();
+        LogStatistics statistics = new LogStatistics(session);
+
         WebDriver driver = null;
         List<CategoryInfoKeeper> categoriesWithItemsToReparse = new Controller().checkCategoriesForItemListChanges(driver, session);
 
         driver = SileniumUtil.initDriver();
         for (CategoryInfoKeeper keeper: categoriesWithItemsToReparse){
-            ToyUtil.setDeletedStatus(keeper, session);
-            ToyUtil.parseNewItems(driver, keeper, session);
+            ToyUtil.setDeletedStatus(keeper, session, statistics);
+            ToyUtil.parseNewItems(driver, keeper, session, statistics);
         }
 
         driver.close();
 
         ToyUtil.checkAllItemsForStockUpdates(session);
+        statistics.showStatistics();
+
         HibernateUtil.shutdown();
     }
 

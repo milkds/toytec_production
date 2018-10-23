@@ -50,10 +50,10 @@ public class ToyUtil {
 
     }
 
-    public static void setDeletedStatus(CategoryInfoKeeper keeper, Session session) {
+    public static void setDeletedStatus(CategoryInfoKeeper keeper, Session session, LogStatistics statistics) {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
-
+        List<ToyItem> deletedItems = statistics.getDeletedItems();
         String categoryName= keeper.getCategoryName();
         //making Set of item links from web page - for quicker search.
         Set<String> webLinkSet = new HashSet<>(itemLinksFromCategory);
@@ -63,14 +63,17 @@ public class ToyUtil {
                 item.setItemStatus("DELETED");
                 ToyDao.updateItem(session,item);
                 logger.info("Status set to DELETED for: "+item);
+                deletedItems.add(item);
             }
         }
 
     }
 
-    public static void parseNewItems(WebDriver driver, CategoryInfoKeeper keeper, Session session) {
+    public static void parseNewItems(WebDriver driver, CategoryInfoKeeper keeper, Session session, LogStatistics statistics) {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
+
+        List<ToyItem> addedItems = statistics.getAddedItems();
 
         //making Set of item links from db - for quicker search.
         Set<String> dbLinkSet = new HashSet<>(itemLinksFromDB);
@@ -82,6 +85,7 @@ public class ToyUtil {
                 ToyItem item = builder.buildToyItem(driver);
                 ToyDao.addNewItem(item, session);
                 logger.info("Added new item: "+item);
+                addedItems.add(item);
             }
         }
     }

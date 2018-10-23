@@ -25,7 +25,7 @@ public class HibernateUtil {
                 settings.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/bilstein_parse?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
                 settings.put("hibernate.connection.username", "root");
                 settings.put("hibernate.connection.password", "root");
-                settings.put("hibernate.show_sql", "true");
+                settings.put("hibernate.show_sql", "false");
                 settings.put("hibernate.hbm2ddl.auto", "none");
 
                 registryBuilder.applySettings(settings);

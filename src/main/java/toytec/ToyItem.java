@@ -73,6 +73,8 @@ public class ToyItem {
     @Temporal(TemporalType.DATE)
     private Date stockDescUpdateDate;
 
+    @Column(name = "ITEM_STATUS")
+    private String itemStatus;
 
     public String getItemStatus() {
         return itemStatus;
@@ -81,8 +83,7 @@ public class ToyItem {
         this.itemStatus = itemStatus;
     }
 
-    @Column(name = "ITEM_STATUS")
-    private String itemStatus;
+
 
 
     @Transient
