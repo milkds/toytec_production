@@ -117,8 +117,7 @@ public class SileniumUtil {
             WebElement itemLinkEl = item.findElement(By.className("product-item-link"));
             itemLinks.add(itemLinkEl.getAttribute("href"));
         }
-        itemLinks.forEach(System.out::println);
-        //implement
+        //itemLinks.forEach(System.out::println);
 
         return itemLinks;
     }

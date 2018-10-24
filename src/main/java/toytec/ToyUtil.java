@@ -19,7 +19,7 @@ public class ToyUtil {
         try {
             categories = Files.readAllLines(Paths.get(CATEGORIES_PATH));
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return categories;
@@ -30,7 +30,7 @@ public class ToyUtil {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
         if (changesDetected){
-            logger.info(categoryName + " category changes detected.");
+          //  logger.info(categoryName + " category changes detected.");
             Set<String> dbLinkSet = new HashSet<>(itemLinksFromDB);
             Set<String> webLinkSet = new HashSet<>(itemLinksFromCategory);
             for (String link: itemLinksFromCategory){
@@ -62,7 +62,7 @@ public class ToyUtil {
                 ToyItem item = ToyDao.getItemByWebLink(link, session, categoryName);
                 item.setItemStatus("DELETED");
                 ToyDao.updateItem(session,item);
-                logger.info("Status set to DELETED for: "+item);
+               // logger.info("Status set to DELETED for: "+item);
                 deletedItems.add(item);
             }
         }
@@ -84,7 +84,7 @@ public class ToyUtil {
                 ItemBuilder builder = new ItemBuilder(keeper.getCategoryName(), keeper.getCategoryLink(), keeper.getSubCategoryName());
                 ToyItem item = builder.buildToyItem(driver);
                 ToyDao.addNewItem(item, session);
-                logger.info("Added new item: "+item);
+              //  logger.info("Added new item: "+item);
                 addedItems.add(item);
             }
         }
@@ -112,7 +112,7 @@ public class ToyUtil {
         try {
             catLines = Files.readAllLines(Paths.get(CATEGORIES_MAP_PATH));
         } catch (IOException e) {
-            System.out.println(e);
+           e.printStackTrace();
         }
         for (String catLine: catLines){
             if (catLine.startsWith(categoryName)){

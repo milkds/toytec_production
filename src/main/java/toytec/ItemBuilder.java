@@ -111,8 +111,8 @@ public class ItemBuilder {
         for (WebElement catEl : categoryElements){
             String catText = catEl.getText();
             if (!catText.equals(category)){
-                System.out.println("Getting subCat: category is: " + category);
-                System.out.println("Getting subCat: categoryElementText is: " + catText);
+               // System.out.println("Getting subCat: category is: " + category);
+              //  System.out.println("Getting subCat: categoryElementText is: " + catText);
                 subCategory = catText;
             }
         }
@@ -188,7 +188,7 @@ public class ItemBuilder {
             }
             //option group
 
-            System.out.println(label.getText());
+           // System.out.println(label.getText());
 
             //choices
             WebElement innerOptHold = opt.findElement(By.className("control"));

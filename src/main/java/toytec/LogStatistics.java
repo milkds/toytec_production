@@ -78,70 +78,92 @@ public class LogStatistics {
     }
 
     private void printChangedItems() {
+
         System.out.println("Added ACCESSORIES: ");
         for (ToyItem item: addedAccessories){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted ACCESSORIES: ");
         for (ToyItem item: deletedAccessories){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added COMPLETE LIFT KITS: ");
         for (ToyItem item: addedLiftKit){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted COMPLETE LIFT KITS: ");
         for (ToyItem item: deletedLiftKit){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added FRONT SUSPENSION: ");
         for (ToyItem item: addedFrontSusp){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted FRONT SUSPENSION: ");
         for (ToyItem item: deletedFrontSusp){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added LIGHTING: ");
         for (ToyItem item: addedLight){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted LIGHTING: ");
         for (ToyItem item: deletedLight){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added PERFORMANCE: ");
         for (ToyItem item: addedPerformance){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted PERFORMANCE: ");
         for (ToyItem item: deletedPerformance){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added PROTECTION & LOCKERS: ");
         for (ToyItem item: addedProtection){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted PROTECTION & LOCKERS: ");
         for (ToyItem item: deletedPotection){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added REAR SUSPENSION: ");
         for (ToyItem item: addedRearSusp){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted REAR SUSPENSION: ");
         for (ToyItem item: deletedRearSusp){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Added SHOCKS: ");
         for (ToyItem item: addedShocks){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+        printVisualBreak();
         System.out.println("Deleted SHOCKS: ");
         for (ToyItem item: deletedShocks){
             System.out.println("SKU: "+item.getSku()+ " Item Name: " + item.getItemName()+ " Link: " + item.getItemLink());
         }
+    }
+
+    private void printVisualBreak() {
+        System.out.println();
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------");
     }
 
     private void printCategories() {
