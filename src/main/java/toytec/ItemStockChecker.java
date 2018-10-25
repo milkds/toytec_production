@@ -32,6 +32,10 @@ public class ItemStockChecker {
             return false;
         }
         Element stockSKUel = doc.getElementsByClass("product-info-stock-sku").first();
+        if (stockSKUel==null){
+            logger.info("Couldn't get stock block for item: " + itemLink);
+            return false;
+        }
 
         String availability = this.getAvailability(stockSKUel, itemLink);
 
