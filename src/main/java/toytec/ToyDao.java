@@ -16,7 +16,10 @@ public class ToyDao {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ToyItem> crQ = builder.createQuery(ToyItem.class);
         Root<ToyItem> root = crQ.from(ToyItem.class);
-        crQ.where(builder.equal(root.get("itemCategory"), category)).select(root.get("itemLink"));
+        crQ.where(builder.and(
+                builder.equal(root.get("itemCategory"), category),
+                builder.isNull(root.get("itemStatus"))))
+                .select(root.get("itemLink"));
 
         Query q = session.createQuery(crQ);
         itemLinksFromCategory = q.getResultList();
@@ -40,7 +43,7 @@ public class ToyDao {
     }
 
     public static void updateItem(Session session, ToyItem item) {
-        //updates
+      /*  //updates
         Transaction transaction = null;
         try {
             transaction = session.getTransaction();
@@ -54,7 +57,7 @@ public class ToyDao {
             System.out.println("couldn't save item to db "+ item.getItemName());
             e.printStackTrace();
          //   System.exit(0);
-        }
+        }*/
     }
 
     public static ToyItem getItemByWebLink(String link, Session session, String categoryName) {
@@ -72,7 +75,7 @@ public class ToyDao {
     }
 
     public static void addNewItem(ToyItem toyItem, Session session) {
-        Transaction transaction = null;
+        /*Transaction transaction = null;
         try {
             transaction = session.getTransaction();
             transaction.begin();
@@ -92,7 +95,7 @@ public class ToyDao {
             System.out.println("couldn't save car to db "+ toyItem.getItemName());
             e.printStackTrace();
            // System.exit(0);
-        }
+        }*/
     }
 
     public static List<String> getItemLinksFromSubCategory(String subCategoryName, Session session) {

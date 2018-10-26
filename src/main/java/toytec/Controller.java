@@ -64,13 +64,13 @@ public class Controller {
         driver = SileniumUtil.initDriver();
         for (CategoryInfoKeeper keeper: categoriesWithItemsToReparse){
             ToyUtil.setDeletedStatus(keeper, session, statistics);
-            ToyUtil.parseNewItems(driver, keeper, session, statistics);
+         //   ToyUtil.parseNewItems(driver, keeper, session, statistics);
         }
 
         driver.close();
 
-        ToyUtil.checkAllItemsForStockUpdates(session);
-        statistics.showStatistics();
+      //  ToyUtil.checkAllItemsForStockUpdates(session);
+      //  statistics.showStatistics();
 
         HibernateUtil.shutdown();
     }
