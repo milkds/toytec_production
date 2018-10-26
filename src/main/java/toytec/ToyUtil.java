@@ -55,7 +55,9 @@ public class ToyUtil {
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
         List<ToyItem> deletedItems = statistics.getDeletedItems();
         String categoryName= keeper.getCategoryName();
+        String subCategoryName= keeper.getSubCategoryName();
         System.out.println("Category name is: " + categoryName);
+        System.out.println("SubCategory name is: " + subCategoryName);
         System.out.println("Web Links List size - " + itemLinksFromCategory.size() + "; Database Links List Size "+ itemLinksFromDB.size());
         //making Set of item links from web page - for quicker search.
         Set<String> webLinkSet = new HashSet<>(itemLinksFromCategory);
@@ -64,7 +66,7 @@ public class ToyUtil {
                 ToyItem item = ToyDao.getItemByWebLink(link, session, categoryName);
                 item.setItemStatus("DELETED");
                 ToyDao.updateItem(session,item);
-               // logger.info("Status set to DELETED for: "+item);
+                logger.info("Status set to DELETED for: "+item);
                 deletedItems.add(item);
             }
         }

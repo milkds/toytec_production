@@ -43,7 +43,7 @@ public class ToyDao {
     }
 
     public static void updateItem(Session session, ToyItem item) {
-      /*  //updates
+        //updates
         Transaction transaction = null;
         try {
             transaction = session.getTransaction();
@@ -57,7 +57,7 @@ public class ToyDao {
             System.out.println("couldn't save item to db "+ item.getItemName());
             e.printStackTrace();
          //   System.exit(0);
-        }*/
+        }
     }
 
     public static ToyItem getItemByWebLink(String link, Session session, String categoryName) {
@@ -75,7 +75,7 @@ public class ToyDao {
     }
 
     public static void addNewItem(ToyItem toyItem, Session session) {
-        /*Transaction transaction = null;
+        Transaction transaction = null;
         try {
             transaction = session.getTransaction();
             transaction.begin();
@@ -95,7 +95,7 @@ public class ToyDao {
             System.out.println("couldn't save car to db "+ toyItem.getItemName());
             e.printStackTrace();
            // System.exit(0);
-        }*/
+        }
     }
 
     public static List<String> getItemLinksFromSubCategory(String subCategoryName, Session session) {
