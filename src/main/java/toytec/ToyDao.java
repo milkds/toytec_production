@@ -18,7 +18,7 @@ public class ToyDao {
         Root<ToyItem> root = crQ.from(ToyItem.class);
         crQ.where(builder.and(
                 builder.equal(root.get("itemCategory"), category),
-                builder.isNull(root.get("itemStatus"))))
+                builder.equal(root.get("itemStatus"),"ACTIVE")))
                 .select(root.get("itemLink"));
 
         Query q = session.createQuery(crQ);
@@ -103,7 +103,8 @@ public class ToyDao {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<ToyItem> crQ = builder.createQuery(ToyItem.class);
         Root<ToyItem> root = crQ.from(ToyItem.class);
-        crQ.where(builder.equal(root.get("itemSubCategory"), subCategoryName)).select(root.get("itemLink"));
+        crQ.where(builder.and(builder.equal(root.get("itemSubCategory"), subCategoryName),
+                              builder.equal(root.get("itemStatus"),"ACTIVE"))).select(root.get("itemLink"));
 
         Query q = session.createQuery(crQ);
         itemLinksFromCategory = q.getResultList();

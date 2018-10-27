@@ -50,6 +50,9 @@ public class ToyUtil {
 
     }
 
+    /***
+     *Keeper keeps info only for one subCategory - it Category has ones. Otherwise it keeps info about whole Category
+     */
     public static void setDeletedStatus(CategoryInfoKeeper keeper, Session session, LogStatistics statistics) {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();

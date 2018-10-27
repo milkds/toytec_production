@@ -16,7 +16,7 @@ public class ToyStatisticsDAO {
         CriteriaQuery<Long> crQ = builder.createQuery(Long.class);
         Root<ToyItem> root = crQ.from(ToyItem.class);
         crQ.select(builder.count(root.get("itemID")));
-        crQ.where(builder.isNull(root.get("itemStatus")));
+        crQ.where(builder.equal(root.get("itemStatus"), "ACTIVE"));
         Query q = session.createQuery(crQ);
 
         return (Long)q.getSingleResult();
@@ -27,7 +27,8 @@ public class ToyStatisticsDAO {
         CriteriaQuery<Long> crQ = builder.createQuery(Long.class);
         Root<ToyItem> root = crQ.from(ToyItem.class);
         crQ.select(builder.count(root.get("itemID")));
-        crQ.where(builder.and(builder.equal(root.get("itemCategory"),category),builder.isNull(root.get("itemStatus"))));
+        crQ.where(builder.and(builder.equal(root.get("itemCategory"),category),
+                              builder.equal(root.get("itemStatus"), "ACTIVE")));
         Query q = session.createQuery(crQ);
 
         return (Long)q.getSingleResult();
