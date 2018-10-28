@@ -29,6 +29,9 @@ public class ToyUtil {
         String categoryName = keeper.getCategoryName();
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
+
+        System.out.println("Category: " + keeper.getCategoryName());
+        System.out.println("SubCategory: " + keeper.getSubCategoryName());
         if (changesDetected){
           //  logger.info(categoryName + " category changes detected.");
             Set<String> dbLinkSet = new HashSet<>(itemLinksFromDB);
@@ -84,7 +87,6 @@ public class ToyUtil {
 
         //making Set of item links from db - for quicker search.
         Set<String> dbLinkSet = new HashSet<>(itemLinksFromDB);
-
         for (String link: itemLinksFromCategory){
             if (!dbLinkSet.contains(link)){
                 SileniumUtil.getItemPage(link, driver);
