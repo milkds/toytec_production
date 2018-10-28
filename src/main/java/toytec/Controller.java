@@ -92,6 +92,7 @@ public class Controller {
             String categoryName = SileniumUtil.getCategoryName(driver);
             List<String> itemLinksFromCategory = SileniumUtil.getItemsFromCategory(driver);
             List<String> itemLinksFromDB = ToyDao.getItemLinksFromCategory(categoryName, session);
+            System.out.println("Category name " + categoryName + "; List size: " + itemLinksFromDB.size());
 
             CategoryInfoKeeper keeper = new CategoryInfoKeeper();
             keeper.setItemLinksFromCategory(itemLinksFromCategory);
