@@ -168,15 +168,13 @@ public class ItemBuilder {
         bad_sleep(5000);
 
         WebElement optionsEl = driver.findElement(By.className("bundle-options-container"));
-       // System.out.println("options found");
+        // System.out.println("options found");
         optionsEl = optionsEl.findElement(By.id("product_addtocart_form"));
-       // System.out.println("form found");
+        // System.out.println("form found");
         optionsEl = optionsEl.findElement(By.className("bundle-options-wrapper"));
-      //  System.out.println("inner options element found");
-        List<WebElement> optionsList = optionsEl.findElements(By.cssSelector("div[class='field option ']"));
-      //  System.out.println(optionsList.size());
-        List<WebElement> optionsListRequired = optionsEl.findElements(By.cssSelector("div[class='field option  required']"));
-        optionsList.addAll(optionsListRequired);
+        //  System.out.println("inner options element found");
+        List<WebElement> optionsList = optionsEl.findElements(By.cssSelector("div[class^='field option ']"));
+
 
         for (WebElement opt: optionsList){
             WebElement label = null;
@@ -186,24 +184,27 @@ public class ItemBuilder {
                     break;
                 }
             }
-            //option group
 
-           // System.out.println(label.getText());
+            WebElement innerOptHold = opt.findElement(By.cssSelector("div[class='nested options-list']"));
+            List<WebElement> innerOptions = new ArrayList<>();
+            innerOptions = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));
 
-            //choices
-            WebElement innerOptHold = opt.findElement(By.className("control"));
-            try{
-                innerOptHold = innerOptHold.findElement(By.cssSelector("div[class='nested options-list']"));
+            //checking if there single option
+            if (innerOptions.size()==0){
+                String fullOptText = innerOptHold.getText();
+                if (fullOptText.contains("$")){
+                    logUnexpectedData("Single option with price", driver.getCurrentUrl());
+                    innerOptions.add(innerOptHold);
+                }
+                else {
+                    innerOptions.add(innerOptHold.findElement(By.className("product-name")));
+                }
             }
-            catch (NoSuchElementException e){
 
-            }
-            //List<WebElement> innerOptList = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));
-            List<WebElement> innerOptList = innerOptHold.findElements(By.className("product-name"));
-            for (WebElement choice: innerOptList){
+
+            for (WebElement choice: innerOptions){
                 ToyOption option = new ToyOption();
                 option.setOptionGroup(label.getText());
-               // choice = choice.findElement(By.className("product-name"));
                 String choiceText = choice.getText();
                 if (choiceText.contains("$")){
                     String choiceName = StringUtils.substringBefore(choiceText, " [");

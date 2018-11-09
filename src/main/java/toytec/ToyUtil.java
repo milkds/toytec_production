@@ -16,11 +16,14 @@ public class ToyUtil {
     private static final Logger logger = LogManager.getLogger(ToyUtil.class.getName());
     public static List<String> getCategoriesForCheck() {
         List<String> categories = new ArrayList<>();
-        try {
+       /* try {
             categories = Files.readAllLines(Paths.get(CATEGORIES_PATH));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        WebDriver driver = SileniumUtil.getToytecDefaultPageDriver();
+        categories = SileniumUtil.getAllCategoriesLinks(driver);
 
         return categories;
     }
@@ -137,4 +140,5 @@ public class ToyUtil {
         }
         return catMap;
     }
+
 }

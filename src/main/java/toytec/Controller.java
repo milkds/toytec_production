@@ -16,9 +16,12 @@ public class Controller {
 
 
     public static void main(String[] args) {
-      // new Controller().testStatistics();
-         new Controller().checkSiteForUpdates();
+        new TestClass().getSubCategories();
+        // new Controller().testStatistics();
+      //   new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
+
+       // new TestClass().getOptionPrices();
     }
 
     private void checkDupes(){
@@ -115,7 +118,7 @@ public class Controller {
         return categoryLinksToReparse;
     }
 
-    private List<CategoryInfoKeeper> getSubCategories(WebDriver driver, CategoryInfoKeeper keeper, Session session) {
+    private List<CategoryInfoKeeper> getSubCategories2(WebDriver driver, CategoryInfoKeeper keeper, Session session) {
         List<CategoryInfoKeeper> subCatKeepers = new ArrayList<>();
         Map<String, String> categoryMap = ToyUtil.getCategoryMap(keeper.getCategoryName());
         if (categoryMap.size()==1&&categoryMap.containsKey("NO SUBCATEGORY")){
@@ -142,7 +145,43 @@ public class Controller {
             }
         }
 
-     return subCatKeepers;
+        return subCatKeepers;
+    }
+
+    private List<CategoryInfoKeeper> getSubCategories(WebDriver driver, CategoryInfoKeeper keeper, Session session) {
+        List<CategoryInfoKeeper> subCatKeepers = new ArrayList<>();
+        String catLink = keeper.getCategoryLink();
+        List<String> subCatLinks = SileniumUtil.getCategoryList(catLink);
+
+        //if no subCategoryLinks found - list would be empty.
+        if (subCatLinks.size()==0){
+            keeper.setSubCategoryName("NO SUBCATEGORY");
+            keeper.setSubCategoryLink(keeper.getCategoryLink());
+            subCatKeepers.add(keeper);
+        }
+        else {
+            for (String subCatLink: subCatLinks){
+                CategoryInfoKeeper subCatKeeper = new CategoryInfoKeeper();
+                subCatKeeper.setSubCategoryLink(subCatLink);
+                driver = SileniumUtil.getCategory(driver,subCatLink);
+
+                //getCategoryName works identically either for category or for subcategory
+                String subCategoryName = SileniumUtil.getCategoryName(driver);
+                subCatKeeper.setCategoryName(subCategoryName);
+
+                List<String> itemLinksFromCategory = SileniumUtil.getItemsFromCategory(driver);
+                List<String> itemLinksFromDB = ToyDao.getItemLinksFromSubCategory(subCategoryName, session);
+
+                subCatKeeper.setItemLinksFromCategory(itemLinksFromCategory);
+                subCatKeeper.setItemLinksFromDB(itemLinksFromDB);
+                subCatKeeper.setCategoryName(keeper.getCategoryName());
+                subCatKeeper.setCategoryLink(keeper.getCategoryLink());
+
+                subCatKeepers.add(subCatKeeper);
+            }
+        }
+
+        return subCatKeepers;
     }
 
     private boolean itemListChangeDetected(CategoryInfoKeeper keeper) {
