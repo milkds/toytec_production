@@ -1,20 +1,22 @@
 package toytec;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xml.sax.Locator;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLOutput;
 import java.util.*;
+import java.util.List;
 
 public class SileniumUtil {
     private static final String CATEGORY_SETTINGS = "?product_list_mode=list&product_list_limit=all";
@@ -61,7 +63,6 @@ public class SileniumUtil {
                 }
             }
         }
-
     }
 
     private static boolean skipCountrySelect(WebDriver driver) {
@@ -89,6 +90,11 @@ public class SileniumUtil {
 
         close.click();
         System.out.println("close clicked");
+
+        Actions action = new Actions(driver);
+        WebElement flag = driver.findElement(By.id("igFlag"));
+        action.moveToElement(flag).build().perform();
+
 
         return true;
     }
@@ -180,6 +186,7 @@ public class SileniumUtil {
             WebElement innerCatEl = waitTillElementAvailable(element,by,120);
             if (innerCatEl==null){
                 System.out.println("Couldn't load category elements from start page, check internet connection or site code");
+                System.exit(1);
             }
             System.out.println(innerCatEl.getAttribute("href"));
             catLinks.add(innerCatEl.getAttribute("href"));
@@ -287,7 +294,7 @@ public class SileniumUtil {
         return catList;
     }
 
-    private static WebElement waitTillElementAvailable(WebElement element, By locator, int retryQuantity) {
+    public static WebElement waitTillElementAvailable(WebElement element, By locator, int retryQuantity) {
         WebElement awaitedElement = null;
         int counter = 0;
         while (true){

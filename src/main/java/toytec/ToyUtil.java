@@ -25,6 +25,8 @@ public class ToyUtil {
         WebDriver driver = SileniumUtil.getToytecDefaultPageDriver();
         categories = SileniumUtil.getAllCategoriesLinks(driver);
 
+        categories.remove("https://www.toyteclifts.com/scratch-dent.html");
+
         return categories;
     }
 

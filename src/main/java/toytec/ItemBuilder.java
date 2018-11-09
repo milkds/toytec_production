@@ -184,8 +184,14 @@ public class ItemBuilder {
                     break;
                 }
             }
+            By by = By.cssSelector("div[class='nested options-list']");
 
-            WebElement innerOptHold = opt.findElement(By.cssSelector("div[class='nested options-list']"));
+          //  WebElement innerOptHold = opt.findElement(By.cssSelector("div[class='nested options-list']"));
+            WebElement innerOptHold = SileniumUtil.waitTillElementAvailable(opt,by,120);
+            if (innerOptHold==null){
+                logUnexpectedData("No /nested options-list/ element available in some options.", driver.getCurrentUrl());
+                continue;
+            }
             List<WebElement> innerOptions = new ArrayList<>();
             innerOptions = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));
 
