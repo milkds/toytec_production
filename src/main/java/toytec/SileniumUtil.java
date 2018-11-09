@@ -174,9 +174,13 @@ public class SileniumUtil {
 
         List<WebElement> catEls = getCategoryElements(driver);
 
-        System.out.println("categories qty = " + catEls.size());
+        //System.out.println("categories qty = " + catEls.size());
         for (WebElement element: catEls){
-            WebElement innerCatEl = element.findElement(By.cssSelector("a[class='level-top ui-corner-all']"));
+            By by = By.cssSelector("a[class='level-top ui-corner-all']");
+            WebElement innerCatEl = waitTillElementAvailable(element,by,120);
+            if (innerCatEl==null){
+                System.out.println("Couldn't load category elements from start page, check internet connection or site code");
+            }
             System.out.println(innerCatEl.getAttribute("href"));
             catLinks.add(innerCatEl.getAttribute("href"));
         }
