@@ -33,4 +33,18 @@ public class ToyStatisticsDAO {
 
         return (Long)q.getSingleResult();
     }
+
+    public static List<String> getCategoryNames(Session session) {
+        List<String> categoryNames = new ArrayList<>();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ToyItem> crQ = builder.createQuery(ToyItem.class);
+        Root<ToyItem> root = crQ.from(ToyItem.class);
+        crQ.distinct(true).select(root.get("itemCategory"));
+
+        Query q = session.createQuery(crQ);
+        categoryNames = q.getResultList();
+
+
+        return categoryNames;
+    }
 }

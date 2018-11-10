@@ -16,9 +16,9 @@ public class Controller {
 
 
     public static void main(String[] args) {
-       // new TestClass().getSubCategories();
+         new TestClass().testStatisticsInit();
         // new Controller().testStatistics();
-         new Controller().checkSiteForUpdates();
+         //new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
 
        // new TestClass().getOptionPrices();
@@ -59,7 +59,7 @@ public class Controller {
 
     private void checkSiteForUpdates(){
         Session session = ToyDao.getSession();
-        LogStatistics statistics = new LogStatistics(session);
+        Statistics statistics = new Statistics(session);
 
         WebDriver driver = null;
         List<CategoryInfoKeeper> categoriesWithItemsToReparse = new Controller().checkCategoriesForItemListChanges(driver, session);

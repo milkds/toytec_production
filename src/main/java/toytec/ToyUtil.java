@@ -61,7 +61,7 @@ public class ToyUtil {
     /***
      *Keeper keeps info only for one subCategory - it Category has ones. Otherwise it keeps info about whole Category
      */
-    public static void setDeletedStatus(CategoryInfoKeeper keeper, Session session, LogStatistics statistics) {
+    public static void setDeletedStatus(CategoryInfoKeeper keeper, Session session, Statistics statistics) {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
         List<ToyItem> deletedItems = statistics.getDeletedItems();
@@ -84,7 +84,7 @@ public class ToyUtil {
 
     }
 
-    public static void parseNewItems(WebDriver driver, CategoryInfoKeeper keeper, Session session, LogStatistics statistics) {
+    public static void parseNewItems(WebDriver driver, CategoryInfoKeeper keeper, Session session, Statistics statistics) {
         List<String> itemLinksFromCategory = keeper.getItemLinksFromCategory();
         List<String> itemLinksFromDB = keeper.getItemLinksFromDB();
 

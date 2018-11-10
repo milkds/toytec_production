@@ -186,11 +186,14 @@ public class ItemBuilder {
             }
             By by = By.cssSelector("div[class='nested options-list']");
 
-          //  WebElement innerOptHold = opt.findElement(By.cssSelector("div[class='nested options-list']"));
-            WebElement innerOptHold = SileniumUtil.waitTillElementAvailable(opt,by,120);
+            WebElement innerOptHold = SileniumUtil.waitTillElementAvailable(opt,by,20);
             if (innerOptHold==null){
-                logUnexpectedData("No /nested options-list/ element available in some options.", driver.getCurrentUrl());
-                continue;
+                by = By.className("control");
+                innerOptHold = SileniumUtil.waitTillElementAvailable(opt,by,20);
+                if (innerOptHold==null){
+                    logUnexpectedData("No options in options group found.", driver.getCurrentUrl());
+                    continue;
+                }
             }
             List<WebElement> innerOptions = new ArrayList<>();
             innerOptions = innerOptHold.findElements(By.cssSelector("div[class='field choice']"));

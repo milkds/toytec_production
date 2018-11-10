@@ -1,7 +1,10 @@
 package toytec;
 
+import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.List;
 
 public class TestClass {
 
@@ -27,5 +30,21 @@ public class TestClass {
         String catLink = "https://www.toyteclifts.com/front-lifts-coilovers.html";
        // String catLink = "https://www.toyteclifts.com/complete-lift-kits.html";
         SileniumUtil.getCategoryList(catLink);
+    }
+
+    public void getCategoryNames(){
+        Session session = ToyDao.getSession();
+        List<String> catNames = ToyStatisticsDAO.getCategoryNames(session);
+        HibernateUtil.shutdown();
+
+        catNames.forEach(System.out::println);
+    }
+
+    public void testStatisticsInit(){
+        Session session = ToyDao.getSession();
+        Statistics statistics = new Statistics(session);
+        HibernateUtil.shutdown();
+
+
     }
 }
