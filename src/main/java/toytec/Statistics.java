@@ -126,6 +126,8 @@ public class Statistics {
             statisticsKeeper.append(deleted);
             statisticsKeeper.append(System.lineSeparator());
         });
+
+        statisticsKeeper.append(System.lineSeparator());
     }
 
     private void printTime() {
@@ -146,6 +148,7 @@ public class Statistics {
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append("Total Elapsed time in minutes: ");
         statisticsKeeper.append(Duration.between(start, finish).toMinutes());
+        statisticsKeeper.append(System.lineSeparator());
     }
 
     private void printChangesByItems() {
@@ -175,6 +178,7 @@ public class Statistics {
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append("--------------------------------------------------------------------");
+        statisticsKeeper.append(System.lineSeparator());
     }
 
     private void appendItem(ToyItem item){
