@@ -1,9 +1,11 @@
 package toytec;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TestClass {
@@ -46,5 +48,15 @@ public class TestClass {
         HibernateUtil.shutdown();
 
 
+    }
+
+    public void exportToExcel(){
+        Session session = ToyDao.getSession();
+        try {
+            ExcelExporter.saveToExcel(session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        HibernateUtil.shutdown();
     }
 }
