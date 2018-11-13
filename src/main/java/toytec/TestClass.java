@@ -5,7 +5,11 @@ import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestClass {
@@ -59,4 +63,28 @@ public class TestClass {
         }
         HibernateUtil.shutdown();
     }
+
+    public void sendMail(){
+        //File file = new File("D:\\IdeaProjects\\toytec_production\\src\\main\\resources\\6-18.xlsx");
+
+        File file = null;
+        try
+        {
+            file = File.createTempFile("myTempFile", ".txt");
+
+            //write data on temporary file
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write("This is the temporary data written to temp file");
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        EmailSender.sendMail(files);
+    }
+
+
+
+
 }

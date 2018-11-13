@@ -3,6 +3,10 @@ package toytec;
 import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /***
@@ -16,9 +20,9 @@ public class Controller {
 
 
     public static void main(String[] args) {
-         new TestClass().testStatisticsInit();
+         new TestClass().sendMail();
         // new Controller().testStatistics();
-         //new Controller().checkSiteForUpdates();
+       //  new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
 
        // new TestClass().getOptionPrices();
@@ -73,9 +77,31 @@ public class Controller {
         driver.close();
 
         ToyUtil.checkAllItemsForStockUpdates(session);
-        statistics.showStatistics();
+        StringBuilder sb = statistics.showStatistics();
+        sendResultsByEmail(sb, session);
 
         HibernateUtil.shutdown();
+    }
+
+    private void sendResultsByEmail(StringBuilder sb, Session session) {
+        List<File> files = new ArrayList<>();
+        File file = null;
+        try
+        {
+            file = File.createTempFile("parseReport", ".txt");
+            //write data on temporary file
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(sb.toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        files.add(file);
+        File excelDB = ExcelExporter.prepareReportForEmail(session);
+        files.add(excelDB);
+
+        EmailSender.sendMail(files);
     }
 
     private List<CategoryInfoKeeper> checkCategoriesForItemListChanges(WebDriver driver, Session session){

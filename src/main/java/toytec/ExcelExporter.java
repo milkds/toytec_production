@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Session;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,33 @@ public class ExcelExporter {
     private static final String FINAL_FILE_PATH = "src\\main\\resources\\from_db.xlsx";
 
     public static void saveToExcel(Session session) throws IOException, InvalidFormatException {
+        Workbook workbook = writeDBtoExcel(session);
+        FileOutputStream fileOut = new FileOutputStream(FINAL_FILE_PATH);
+        workbook.write(fileOut);
+        fileOut.close();
+
+        // Closing the workbook
+        workbook.close();
+    }
+
+    public static File prepareReportForEmail(Session session){
+        Workbook workbook = writeDBtoExcel(session);
+        File file = null;
+        try {
+            file =  File.createTempFile("dbToExcel", ".xlsx");
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
+    private static Workbook writeDBtoExcel(Session session) {
         List<ToyItem> items = ToyDao.getAllItems(session);
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -24,12 +52,7 @@ public class ExcelExporter {
             counter = setCells(item,sheet,counter);
         }
 
-        FileOutputStream fileOut = new FileOutputStream(FINAL_FILE_PATH);
-        workbook.write(fileOut);
-        fileOut.close();
-
-        // Closing the workbook
-        workbook.close();
+        return workbook;
     }
 
     private static void setFirstRow(Sheet sheet) {

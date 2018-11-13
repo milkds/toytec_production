@@ -55,10 +55,12 @@ public class Statistics {
         return result;
     }
 
-    public void showStatistics() {
+    public StringBuilder showStatistics() {
         fixateResults();
         printStatistics();
         System.out.println(statisticsKeeper.toString());
+
+        return statisticsKeeper;
     }
 
     private void fixateResults() {
