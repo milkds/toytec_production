@@ -22,6 +22,7 @@ public class EmailSender {
             email.setSubject("TestMail");
             email.setMsg("This is a test mail ... :-)");
             email.addTo("evp@artpolymer.com");
+            email.addTo("dmitriy.orders@gmail.com");
             email.send();
         } catch (EmailException e) {
             e.printStackTrace();

@@ -86,7 +86,7 @@ public class ToyItem {
 
 
 
-    @Transient
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
     private List<ToyOption> options;
 
     @Override

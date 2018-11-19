@@ -20,9 +20,9 @@ public class Controller {
 
 
     public static void main(String[] args) {
-         new TestClass().sendMail();
+       //  new TestClass().sendMail();
         // new Controller().testStatistics();
-       //  new Controller().checkSiteForUpdates();
+         new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
 
        // new TestClass().getOptionPrices();
