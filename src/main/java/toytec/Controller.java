@@ -20,7 +20,6 @@ public class Controller {
 
 
     public static void main(String[] args) {
-      //  TestClass.testInstant();
        //  new TestClass().sendMail();
         // new Controller().testStatistics();
        //  new Controller().checkSiteForUpdates();
@@ -91,6 +90,7 @@ public class Controller {
         {
            // file = File.createTempFile("parseReport",  ".txt");
             String fName = Statistics.formatTime(statistics.getFinish())+"_ToyTec_parseReport.txt";
+            fName = fName.replaceAll(":", "-");
             file = new File(fName);
             //write data on temporary file
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));

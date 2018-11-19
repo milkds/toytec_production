@@ -5,10 +5,7 @@ import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -99,7 +96,6 @@ public class TestClass {
 
         System.out.println(formatter.format(now));
     }
-
 
 
 

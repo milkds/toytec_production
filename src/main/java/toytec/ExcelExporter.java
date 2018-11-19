@@ -30,6 +30,7 @@ public class ExcelExporter {
         try {
             //file =  File.createTempFile("dbToExcel", ".xlsx");
             String fName = Statistics.formatTime(statistics.getFinish())+"_ToyTec_parsedItems.xlsx";
+            fName = fName.replaceAll(":", "-");
             file = new File(fName);
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
