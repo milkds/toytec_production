@@ -20,7 +20,7 @@ public class Controller {
 
 
     public static void main(String[] args) {
-        TestClass.testInstant();
+      //  TestClass.testInstant();
        //  new TestClass().sendMail();
         // new Controller().testStatistics();
        //  new Controller().checkSiteForUpdates();
