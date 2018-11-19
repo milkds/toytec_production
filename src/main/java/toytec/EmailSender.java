@@ -24,6 +24,7 @@ public class EmailSender {
             email.setSubject(subject);
             email.setMsg(statistics.getStatisticsKeeper().toString());
             email.addTo("evp@artpolymer.com");
+            email.addTo("dmitriy.orders@gmail.com");
             email.send();
         } catch (EmailException e) {
             e.printStackTrace();

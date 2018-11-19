@@ -243,7 +243,7 @@ public class ExcelExporter {
 
         cell = row.createCell(1);
         cell.setCellType(CellType.STRING);
-        cell.setCellValue(option.getItemID());
+        cell.setCellValue(option.getItem().getItemID());
 
         cell = row.createCell(19);
         cell.setCellType(CellType.STRING);

@@ -84,7 +84,7 @@ public class ToyDao {
             toyItem.setItemID(id);
             List<ToyOption> options = toyItem.getOptions();
             for (ToyOption option: options){
-               option.setItemID(id);
+                option.setItem(toyItem);
                 session.persist(option);
             }
             transaction.commit();

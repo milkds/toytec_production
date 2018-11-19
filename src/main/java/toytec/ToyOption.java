@@ -12,9 +12,6 @@ public class ToyOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int optionID;
 
-    @Column(name = "ITEM_ID")
-    private int itemID;
-
     @Column(name = "OPTION_GROUP")
     private String optionGroup;
 
@@ -24,11 +21,14 @@ public class ToyOption {
     @Column(name = "OPTION_PRICE")
     private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name = "ITEM_ID")
+    private ToyItem item;
+
     @Override
     public String toString() {
         return "ToyOption{" +
                 "optionID=" + optionID +
-                ", itemID=" + itemID +
                 ", optionGroup='" + optionGroup + '\'' +
                 ", optionName='" + optionName + '\'' +
                 ", price=" + price +
@@ -41,14 +41,6 @@ public class ToyOption {
 
     public void setOptionID(int optionID) {
         this.optionID = optionID;
-    }
-
-    public int getItemID() {
-        return itemID;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
     }
 
     public String getOptionGroup() {
@@ -74,4 +66,13 @@ public class ToyOption {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public ToyItem getItem() {
+        return item;
+    }
+
+    public void setItem(ToyItem item) {
+        this.item = item;
+    }
+
 }
