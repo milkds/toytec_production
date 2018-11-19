@@ -20,7 +20,8 @@ public class Controller {
 
 
     public static void main(String[] args) {
-         new TestClass().sendMail();
+        TestClass.testInstant();
+       //  new TestClass().sendMail();
         // new Controller().testStatistics();
        //  new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
@@ -78,17 +79,19 @@ public class Controller {
 
         ToyUtil.checkAllItemsForStockUpdates(session);
         StringBuilder sb = statistics.showStatistics();
-        sendResultsByEmail(sb, session);
+        sendResultsByEmail(sb, session, statistics);
 
         HibernateUtil.shutdown();
     }
 
-    private void sendResultsByEmail(StringBuilder sb, Session session) {
+    private void sendResultsByEmail(StringBuilder sb, Session session, Statistics statistics) {
         List<File> files = new ArrayList<>();
         File file = null;
         try
         {
-            file = File.createTempFile("parseReport", ".txt");
+           // file = File.createTempFile("parseReport",  ".txt");
+            String fName = Statistics.formatTime(statistics.getFinish())+"_ToyTec_parseReport.txt";
+            file = new File(fName);
             //write data on temporary file
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             bw.write(sb.toString());
@@ -98,10 +101,10 @@ public class Controller {
         }
 
         files.add(file);
-        File excelDB = ExcelExporter.prepareReportForEmail(session);
+        File excelDB = ExcelExporter.prepareReportForEmail(session, statistics);
         files.add(excelDB);
 
-        EmailSender.sendMail(files);
+        EmailSender.sendMail(files, statistics);
     }
 
     private List<CategoryInfoKeeper> checkCategoriesForItemListChanges(WebDriver driver, Session session){

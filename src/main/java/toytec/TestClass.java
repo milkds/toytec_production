@@ -9,8 +9,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TestClass {
 
@@ -81,7 +86,18 @@ public class TestClass {
         }
         List<File> files = new ArrayList<>();
         files.add(file);
-        EmailSender.sendMail(files);
+       // EmailSender.sendMail(files, new Statistics());
+    }
+
+    public static void testInstant(){
+        Instant now =  Instant.now();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofLocalizedDateTime( FormatStyle.MEDIUM )
+                        .withLocale( Locale.UK )
+                        .withZone( ZoneId.systemDefault() );
+
+        System.out.println(formatter.format(now));
     }
 
 

@@ -24,11 +24,13 @@ public class ExcelExporter {
         workbook.close();
     }
 
-    public static File prepareReportForEmail(Session session){
+    public static File prepareReportForEmail(Session session, Statistics statistics){
         Workbook workbook = writeDBtoExcel(session);
         File file = null;
         try {
-            file =  File.createTempFile("dbToExcel", ".xlsx");
+            //file =  File.createTempFile("dbToExcel", ".xlsx");
+            String fName = Statistics.formatTime(statistics.getFinish())+"_ToyTec_parsedItems.xlsx";
+            file = new File(fName);
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
             fileOut.close();

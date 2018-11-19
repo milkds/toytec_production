@@ -5,10 +5,10 @@ import org.hibernate.Session;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.*;
 
 public class Statistics {
 
@@ -134,11 +134,20 @@ public class Statistics {
 
     private void printTime() {
         statisticsKeeper.append("Parse started at: ");
-        statisticsKeeper.append(Timestamp.from(start));
+        statisticsKeeper.append(formatTime(start));
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append("Parse finished at: ");
-        statisticsKeeper.append(Timestamp.from(finish));
+        statisticsKeeper.append(formatTime(finish));
         statisticsKeeper.append(System.lineSeparator());
+    }
+
+    public static String formatTime(Instant instant) {
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofLocalizedDateTime( FormatStyle.MEDIUM )
+                        .withLocale( Locale.UK )
+                        .withZone( ZoneId.systemDefault() );
+
+        return formatter.format(instant);
     }
 
     private void printTotals() {
@@ -206,4 +215,18 @@ public class Statistics {
     public List<ToyItem> getDeletedItems() {
         return deletedItems;
     }
+    public Instant getFinish() {
+        return finish;
+    }
+    public StringBuilder getStatisticsKeeper() {
+        return statisticsKeeper;
+    }
+    public long getTotalItemsQuantityBeforeCheck() {
+        return totalItemsQuantityBeforeCheck;
+    }
+    public long getTotalItemsQuantityAfterCheck() {
+        return totalItemsQuantityAfterCheck;
+    }
+
+
 }
