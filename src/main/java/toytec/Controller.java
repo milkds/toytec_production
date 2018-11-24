@@ -20,9 +20,9 @@ public class Controller {
 
 
     public static void main(String[] args) {
-       //  new TestClass().sendMail();
+
         // new Controller().testStatistics();
-       //  new Controller().checkSiteForUpdates();
+         new Controller().checkSiteForUpdates();
         // new Controller().checkStockForUpdates();
 
        // new TestClass().getOptionPrices();
@@ -89,9 +89,11 @@ public class Controller {
         try
         {
            // file = File.createTempFile("parseReport",  ".txt");
-            String fName = Statistics.formatTime(statistics.getFinish())+"_ToyTec_parseReport.txt";
+            String fName = Statistics.formatTime(statistics.getFinish());
             fName = fName.replaceAll(":", "-");
             fName = fName.substring(0, fName.length()-3);
+            fName = fName+"_ToyTec_parseReport.txt";
+            fName = "C:/Dropbox/ToyTecParse/"+ fName;
             file = new File(fName);
             //write data on temporary file
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
