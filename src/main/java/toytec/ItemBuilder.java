@@ -156,7 +156,7 @@ public class ItemBuilder {
         return availability;
     }
 
-    private List<ToyOption> getOptions(WebDriver driver) {
+    public List<ToyOption> getOptions(WebDriver driver) {
         List<ToyOption> options = new ArrayList<>();
         try  {
             WebElement customizeButton = driver.findElement(By.id("bundle-slide"));

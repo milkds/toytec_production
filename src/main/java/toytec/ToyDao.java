@@ -112,4 +112,46 @@ public class ToyDao {
 
         return itemLinksFromCategory;
     }
+
+    public static void updateItemWithOptions(Session session, ToyItem item) {
+        Transaction transaction = null;
+        try {
+            transaction = session.getTransaction();
+            transaction.begin();
+            deleteOldOptions(session, item);
+            List<ToyOption> options = item.getOptions();
+            for (ToyOption option: options){
+                option.setItem(item);
+                session.persist(option);
+            }
+            session.update(item);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println("couldn't save item to db "+ item.getItemName());
+            e.printStackTrace();
+        }
+    }
+
+    private static void deleteOldOptions(Session session, ToyItem item) {
+        List<ToyOption> options = getOptionsByItem(session, item);
+        for (ToyOption option: options){
+            session.delete(option);
+            System.out.println("option NO "+option.getOptionID() + " deleted");
+        }
+    }
+
+    private static List<ToyOption> getOptionsByItem(Session session, ToyItem item) {
+        List<ToyOption> options = null;
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ToyOption> crQ = builder.createQuery(ToyOption.class);
+        Root<ToyOption> root = crQ.from(ToyOption.class);
+        crQ.where(builder.equal(root.get("item"), item));
+        Query q = session.createQuery(crQ);
+        options = q.getResultList();
+
+        return options;
+    }
 }

@@ -20,12 +20,7 @@ public class Controller {
 
 
     public static void main(String[] args) {
-
-        // new Controller().testStatistics();
          new Controller().checkSiteForUpdates();
-        // new Controller().checkStockForUpdates();
-
-       // new TestClass().getOptionPrices();
     }
 
     private void checkDupes(){
@@ -57,7 +52,12 @@ public class Controller {
 
     private void checkStockForUpdates(){
         Session session = ToyDao.getSession();
-        ToyUtil.checkAllItemsForStockUpdates(session);
+        WebDriver driver = SileniumUtil.initDriver();
+        Statistics statistics = new Statistics(session);
+
+        ToyUtil.checkAllItemsForUpdates(session, driver, statistics);
+
+        driver.close();
         HibernateUtil.shutdown();
     }
 
@@ -74,12 +74,11 @@ public class Controller {
             ToyUtil.parseNewItems(driver, keeper, session, statistics);
         }
 
-        driver.close();
-
-        ToyUtil.checkAllItemsForStockUpdates(session);
+        ToyUtil.checkAllItemsForUpdates(session, driver, statistics);
         StringBuilder sb = statistics.showStatistics();
         sendResultsByEmail(sb, session, statistics);
 
+        driver.close();
         HibernateUtil.shutdown();
     }
 

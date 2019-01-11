@@ -2,7 +2,7 @@ package toytec;
 
 import org.hibernate.Session;
 
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -30,6 +30,8 @@ public class Statistics {
 
     private Map<String, List<ToyItem>> addedItemsMap;
     private Map<String, List<ToyItem>> deletedItemsMap;
+
+    private List<PriceChangeKeeper> changedPrices = new ArrayList<>();
 
 
 
@@ -99,8 +101,47 @@ public class Statistics {
     private void printStatistics() {
         printChangesByCategories();
         printChangesByItems();
+        printPriceChanges();
         printTotals();
         printTime();
+    }
+
+    private void printPriceChanges() {
+        if (changedPrices.size()>0){
+            statisticsKeeper.append("Prices changed:");
+            statisticsKeeper.append(System.lineSeparator());
+            statisticsKeeper.append(System.lineSeparator());
+            changedPrices.forEach(priceChangeKeeper -> {
+                ToyItem item = priceChangeKeeper.getUpdatedItem();
+                appendItem(item);
+
+                BigDecimal newPriceFrom = item.getPriceFrom();
+                BigDecimal oldPriceFrom = priceChangeKeeper.getOldPriceFrom();
+                statisticsKeeper.append(System.lineSeparator());
+                statisticsKeeper.append("Old price from: ");
+                statisticsKeeper.append(oldPriceFrom);
+                statisticsKeeper.append("$. New price from: ");
+                statisticsKeeper.append(newPriceFrom);
+                statisticsKeeper.append("$. Difference: ");
+                statisticsKeeper.append(newPriceFrom.subtract(oldPriceFrom));
+                statisticsKeeper.append("$.");
+                statisticsKeeper.append(System.lineSeparator());
+
+                BigDecimal newPriceTo = item.getPriceTo();
+                BigDecimal oldPriceTo = priceChangeKeeper.getOldPriceTo();
+                statisticsKeeper.append(System.lineSeparator());
+                statisticsKeeper.append("Old price to: ");
+                statisticsKeeper.append(oldPriceTo);
+                statisticsKeeper.append("$. New price to: ");
+                statisticsKeeper.append(newPriceTo);
+                statisticsKeeper.append("$. Difference: ");
+                statisticsKeeper.append(newPriceTo.subtract(oldPriceTo));
+                statisticsKeeper.append("$.");
+                statisticsKeeper.append(System.lineSeparator());
+            });
+
+            appendVisualSep();
+        }
     }
 
     private void printChangesByCategories() {
@@ -211,9 +252,11 @@ public class Statistics {
     public List<ToyItem> getAddedItems() {
         return addedItems;
     }
-
     public List<ToyItem> getDeletedItems() {
         return deletedItems;
+    }
+    public List<PriceChangeKeeper> getChangedPrices() {
+        return changedPrices;
     }
     public Instant getFinish() {
         return finish;

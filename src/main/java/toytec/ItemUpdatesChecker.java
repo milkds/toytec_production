@@ -1,36 +1,41 @@
 package toytec;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
-public class ItemStockChecker {
-    private static final Logger logger = LogManager.getLogger(ItemStockChecker.class.getName());
+public class ItemUpdatesChecker {
+    private static final Logger logger = LogManager.getLogger(ItemUpdatesChecker.class.getName());
     private ToyItem item;
+    private Statistics statistics;
+    private Document doc;
 
-    public ToyItem getItem() {
-        return item;
-    }
+    private WebDriver driver;
 
-    public ItemStockChecker(ToyItem item) {
+    public ItemUpdatesChecker(ToyItem item, WebDriver driver, Statistics statistics) {
         this.item = item;
+        this.driver = driver;
+        this.statistics = statistics;
     }
 
 
     public boolean stockChangeDetected() {
         String itemLink = item.getItemLink();
-        Document doc;
         try {
             doc = Jsoup.connect(itemLink).get();
         } catch (IOException e) {
             logger.info("Couldn't load item " + itemLink);
             return false;
         }
+
         Element stockSKUel = doc.getElementsByClass("product-info-stock-sku").first();
         if (stockSKUel==null){
             logger.info("Couldn't get stock block for item: " + itemLink);
@@ -120,4 +125,59 @@ public class ItemStockChecker {
 
         return availabilityEL.text();
     }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+    public ToyItem getItem() {
+        return item;
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
+    }
+
+    public boolean priceChangeDetected() {
+        BigDecimal oldPriceFrom = item.getPriceFrom();
+        BigDecimal oldPriceTo = item.getPriceTo();
+
+        BigDecimal newPriceFrom = getNewPrice("from");
+        BigDecimal newPriceTo = getNewPrice("to");
+        if (oldPriceFrom.compareTo(newPriceFrom)==0&&oldPriceTo.compareTo(newPriceTo)==0){
+            return false;
+        }
+        else {
+            PriceChangeKeeper keeper = new PriceChangeKeeper();
+            keeper.setOldPriceFrom(oldPriceFrom);
+            keeper.setOldPriceFrom(oldPriceTo);
+
+            item.setPriceFrom(newPriceFrom);
+            item.setPriceTo(newPriceTo);
+
+            if (item.getOptions().size()>0){
+                ToyUtil.updateOptions(driver, item);
+            }
+            keeper.setUpdatedItem(item);
+            statistics.getChangedPrices().add(keeper);
+        }
+
+        return true;
+    }
+
+    private BigDecimal getNewPrice(String tagPart) {
+        String price = "";
+        Element priceEl = doc.getElementsByClass("price-"+tagPart).first();
+        if (priceEl==null){
+            priceEl = doc.getElementsByClass("price").first();
+        }
+        else {
+            priceEl = priceEl.getElementsByClass("price").first();
+        }
+        price = priceEl.text();
+        price = StringUtils.substringAfter(price,"$");
+        price = price.replaceAll(",", "");
+
+        return new BigDecimal(price);
+    }
+
 }

@@ -309,7 +309,7 @@ public class SileniumUtil {
                 }
                 try {
                     Thread.sleep(500);
-                } catch (Exception interruptE) {
+                } catch (Exception ignored) {
                 }
             }
         }

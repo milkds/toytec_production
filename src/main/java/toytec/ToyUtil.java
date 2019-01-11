@@ -104,16 +104,24 @@ public class ToyUtil {
         }
     }
 
-    public static void checkAllItemsForStockUpdates(Session session) {
+    public static void checkAllItemsForUpdates(Session session, WebDriver driver, Statistics statistics) {
         List<ToyItem> items = ToyDao.getAllItems(session);
 
         int total = items.size();
         int counter = 0;
 
         for (ToyItem item: items){
-            ItemStockChecker checker = new ItemStockChecker(item);
+            ItemUpdatesChecker checker = new ItemUpdatesChecker(item, driver, statistics);
             if (checker.stockChangeDetected()){
                 ToyDao.updateItem(session, item);
+            }
+            if (checker.priceChangeDetected()){
+                if (item.getOptions().size()>0){
+                    ToyDao.updateItemWithOptions(session, item);
+                }
+                else {
+                    ToyDao.updateItem(session, item);
+                }
             }
             counter++;
             logger.info("Checked item "+ counter + " of " + total);
@@ -143,4 +151,9 @@ public class ToyUtil {
         return catMap;
     }
 
+    public static void updateOptions(WebDriver driver, ToyItem item) {
+        SileniumUtil.getItemPage(item.getItemLink(), driver);
+        List<ToyOption> options = new ItemBuilder("","", "").getOptions(driver);
+        item.setOptions(options);
+    }
 }
