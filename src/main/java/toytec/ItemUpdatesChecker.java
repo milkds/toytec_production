@@ -166,12 +166,13 @@ public class ItemUpdatesChecker {
 
     private BigDecimal getNewPrice(String tagPart) {
         String price = "";
-        Element priceEl = doc.getElementsByClass("price-"+tagPart).first();
-        if (priceEl==null){
-            priceEl = doc.getElementsByClass("price").first();
-        }
-        else {
+        Element priceEl;
+        try {
+            priceEl = doc.getElementsByClass("price-"+tagPart).first();
             priceEl = priceEl.getElementsByClass("price").first();
+        }
+        catch (NullPointerException e){
+            priceEl = doc.getElementsByClass("price").first();
         }
         price = priceEl.text();
         price = StringUtils.substringAfter(price,"$");
