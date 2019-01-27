@@ -109,10 +109,9 @@ public class Statistics {
     private void printPriceChanges() {
         if (changedPrices.size()>0){
             statisticsKeeper.append("Prices changed:");
-            statisticsKeeper.append(System.lineSeparator());
-            statisticsKeeper.append(System.lineSeparator());
             changedPrices.forEach(priceChangeKeeper -> {
                 ToyItem item = priceChangeKeeper.getUpdatedItem();
+                statisticsKeeper.append(System.lineSeparator());
                 statisticsKeeper.append("------------------------------");
                 appendItem(item);
 
@@ -210,6 +209,14 @@ public class Statistics {
         addedItemsMap.forEach((k,v)->{
             statisticsKeeper.append("Added ");
             appendCategory(k);
+            v.forEach(item -> {
+                statisticsKeeper.append("------------------------------");
+                statisticsKeeper.append(System.lineSeparator());
+                appendItem(item);
+                statisticsKeeper.append(System.lineSeparator());
+                statisticsKeeper.append("------------------------------");
+                statisticsKeeper.append(System.lineSeparator());
+            });
             v.forEach(this::appendItem);
             appendVisualSep();
             if (deletedItemsMap.containsKey(k)){
@@ -242,7 +249,7 @@ public class Statistics {
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append(item.getItemName());
         statisticsKeeper.append(System.lineSeparator());
-        statisticsKeeper.append(item.getItemLink());;
+        statisticsKeeper.append(item.getItemLink());
         statisticsKeeper.append(System.lineSeparator());
     }
 
