@@ -113,6 +113,7 @@ public class Statistics {
             statisticsKeeper.append(System.lineSeparator());
             changedPrices.forEach(priceChangeKeeper -> {
                 ToyItem item = priceChangeKeeper.getUpdatedItem();
+                statisticsKeeper.append("------------------------------");
                 appendItem(item);
 
                 BigDecimal newPriceFrom = item.getPriceFrom();
@@ -122,21 +123,23 @@ public class Statistics {
                 statisticsKeeper.append(oldPriceFrom);
                 statisticsKeeper.append("$. New price from: ");
                 statisticsKeeper.append(newPriceFrom);
-                statisticsKeeper.append("$. Difference: ");
+                statisticsKeeper.append("$. Difference from: ");
                 statisticsKeeper.append(newPriceFrom.subtract(oldPriceFrom));
                 statisticsKeeper.append("$.");
                 statisticsKeeper.append(System.lineSeparator());
 
                 BigDecimal newPriceTo = item.getPriceTo();
                 BigDecimal oldPriceTo = priceChangeKeeper.getOldPriceTo();
-                statisticsKeeper.append(System.lineSeparator());
-                statisticsKeeper.append("Old price to: ");
+                statisticsKeeper.append("Old price __to: ");
                 statisticsKeeper.append(oldPriceTo);
-                statisticsKeeper.append("$. New price to: ");
+                statisticsKeeper.append("$. New price __to: ");
                 statisticsKeeper.append(newPriceTo);
-                statisticsKeeper.append("$. Difference: ");
+                statisticsKeeper.append("$. Difference __to: ");
                 statisticsKeeper.append(newPriceTo.subtract(oldPriceTo));
                 statisticsKeeper.append("$.");
+                statisticsKeeper.append(System.lineSeparator());
+                statisticsKeeper.append("------------------------------");
+                statisticsKeeper.append(System.lineSeparator());
                 statisticsKeeper.append(System.lineSeparator());
             });
 
@@ -229,16 +232,16 @@ public class Statistics {
     private void appendVisualSep() {
         statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append(System.lineSeparator());
-        statisticsKeeper.append("--------------------------------------------------------------------");
+        statisticsKeeper.append("------------------------------");
         statisticsKeeper.append(System.lineSeparator());
     }
 
     private void appendItem(ToyItem item){
         statisticsKeeper.append("SKU: ");
         statisticsKeeper.append(item.getSku());
-        statisticsKeeper.append(". Item Name: ");
+        statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append(item.getItemName());
-        statisticsKeeper.append(".  Link: ");
+        statisticsKeeper.append(System.lineSeparator());
         statisticsKeeper.append(item.getItemLink());;
         statisticsKeeper.append(System.lineSeparator());
     }
