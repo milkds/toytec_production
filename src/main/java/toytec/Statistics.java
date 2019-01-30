@@ -113,6 +113,7 @@ public class Statistics {
                 ToyItem item = priceChangeKeeper.getUpdatedItem();
                 statisticsKeeper.append(System.lineSeparator());
                 statisticsKeeper.append("------------------------------");
+                statisticsKeeper.append(System.lineSeparator());
                 appendItem(item);
 
                 BigDecimal newPriceFrom = item.getPriceFrom();
