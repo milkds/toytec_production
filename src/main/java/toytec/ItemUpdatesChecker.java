@@ -138,6 +138,11 @@ public class ItemUpdatesChecker {
     }
 
     public boolean priceChangeDetected() {
+        //for case if itemLink is not available any more.
+        Element stockSKUel = doc.getElementsByClass("product-info-stock-sku").first();
+        if (stockSKUel==null){
+            return false;
+        }
         BigDecimal oldPriceFrom = item.getPriceFrom();
         BigDecimal oldPriceTo = item.getPriceTo();
 
