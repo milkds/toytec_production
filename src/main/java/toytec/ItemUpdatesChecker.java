@@ -154,7 +154,7 @@ public class ItemUpdatesChecker {
         else {
             PriceChangeKeeper keeper = new PriceChangeKeeper();
             keeper.setOldPriceFrom(oldPriceFrom);
-            keeper.setOldPriceFrom(oldPriceTo);
+            keeper.setOldPriceTo(oldPriceTo);
 
             item.setPriceFrom(newPriceFrom);
             item.setPriceTo(newPriceTo);

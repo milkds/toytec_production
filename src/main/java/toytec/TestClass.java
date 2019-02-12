@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -97,6 +98,12 @@ public class TestClass {
         System.out.println(formatter.format(now));
     }
 
-
+    public static void testBigDecCompare(){
+        BigDecimal nullDec = null;
+        BigDecimal zeroPrice = new BigDecimal(0);
+        BigDecimal zeroPrice2 = new BigDecimal("");
+        System.out.println(zeroPrice.compareTo(zeroPrice2)==0);
+        System.out.println(zeroPrice.subtract(zeroPrice2));
+    }
 
 }

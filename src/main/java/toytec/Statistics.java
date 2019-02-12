@@ -1,5 +1,7 @@
 package toytec;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -13,6 +15,7 @@ import java.util.*;
 public class Statistics {
 
     private Session session;
+    private static final Logger logger = LogManager.getLogger(Statistics.class.getName());
 
     private long totalItemsQuantityBeforeCheck;
     private long totalItemsQuantityAfterCheck;
@@ -135,7 +138,13 @@ public class Statistics {
                 statisticsKeeper.append("$. New price __to: ");
                 statisticsKeeper.append(newPriceTo);
                 statisticsKeeper.append("$. Difference __to: ");
-                statisticsKeeper.append(newPriceTo.subtract(oldPriceTo));
+                try {
+                    statisticsKeeper.append(newPriceTo.subtract(oldPriceTo));
+                }
+                catch (NullPointerException e){
+                    logger.error("NULL PRICE - check item! " + item.getItemLink());
+                }
+
                 statisticsKeeper.append("$.");
                 statisticsKeeper.append(System.lineSeparator());
                 statisticsKeeper.append("------------------------------");

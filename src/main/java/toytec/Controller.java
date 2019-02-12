@@ -20,7 +20,8 @@ public class Controller {
 
 
     public static void main(String[] args) {
-         new Controller().checkSiteForUpdates();
+        TestClass.testBigDecCompare();
+         //new Controller().checkSiteForUpdates();
     }
 
     private void checkDupes(){
