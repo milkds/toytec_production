@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /***
@@ -20,8 +21,8 @@ public class Controller {
 
 
     public static void main(String[] args) {
-        TestClass.testBigDecCompare();
-         //new Controller().checkSiteForUpdates();
+       // TestClass.testBigDecCompare();
+         new Controller().checkSiteForUpdates();
     }
 
     private void checkDupes(){

@@ -157,6 +157,7 @@ public class ItemBuilder {
     }
 
     public List<ToyOption> getOptions(WebDriver driver) {
+        bad_sleep(5000);
         List<ToyOption> options = new ArrayList<>();
         try  {
             WebElement customizeButton = driver.findElement(By.id("bundle-slide"));

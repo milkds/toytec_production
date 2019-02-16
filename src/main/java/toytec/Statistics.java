@@ -118,7 +118,6 @@ public class Statistics {
                 statisticsKeeper.append("------------------------------");
                 statisticsKeeper.append(System.lineSeparator());
                 appendItem(item);
-
                 BigDecimal newPriceFrom = item.getPriceFrom();
                 BigDecimal oldPriceFrom = priceChangeKeeper.getOldPriceFrom();
                 statisticsKeeper.append(System.lineSeparator());
@@ -227,8 +226,8 @@ public class Statistics {
                 statisticsKeeper.append("------------------------------");
                 statisticsKeeper.append(System.lineSeparator());
             });
-            v.forEach(this::appendItem);
-            appendVisualSep();
+           /* v.forEach(this::appendItem);
+            appendVisualSep();*/
             if (deletedItemsMap.containsKey(k)){
                 statisticsKeeper.append("Deleted ");
                 appendCategory(k);
