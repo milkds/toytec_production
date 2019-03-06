@@ -94,7 +94,7 @@ public class Controller {
             fName = fName.replaceAll(":", "-");
             fName = fName.substring(0, fName.length()-3);
             fName = fName+"_ToyTec_parseReport.txt";
-            fName = "C:/Dropbox/ToyTecParse/"+ fName;
+            fName = "C:/Dropbox/Shared_ServerGrisha/ToyTecParse/"+ fName;
             file = new File(fName);
             //write data on temporary file
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
