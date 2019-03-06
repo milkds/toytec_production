@@ -64,6 +64,7 @@ public class Controller {
     }
 
     private void checkSiteForUpdates(){
+        DBSaver.backupDB();
         Session session = ToyDao.getSession();
         Statistics statistics = new Statistics(session);
 
