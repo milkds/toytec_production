@@ -220,11 +220,19 @@ public class ItemBuilder {
                     String choiceName = StringUtils.substringBefore(choiceText, " [");
                     String price = "";
                     price = StringUtils.substringBetween(choiceText," $", "]");
-                    BigDecimal priceNum = new BigDecimal(price);
-                    if (choiceText.contains("- $")){
-                        priceNum = priceNum.negate();
+                    if  (price==null){
+                        price = StringUtils.substringAfter(choiceText,"$");
                     }
-                    option.setPrice(priceNum);
+                    try {
+                        Double prDouble = Double.parseDouble(price); //checking if price string is valid
+                        BigDecimal priceNum = new BigDecimal(price);
+                        if (choiceText.contains("- $")){
+                            priceNum = priceNum.negate();
+                        }
+                        option.setPrice(priceNum);
+                    }
+                    catch (NumberFormatException ignored){
+                    }
                     option.setOptionName(choiceName);
                 }
                 else {
