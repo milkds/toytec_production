@@ -8,7 +8,7 @@ public class DBSaver {
     private static final String MYSQL_PATH = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump";
     private static final String USER = "root";
     private static final String PASS = "root";
-    private static final String PROJECT_SCHEMA_NAME = "bilstein_parse";
+    private static final String PROJECT_SCHEMA_NAME = "toytec";
     private static final String PATH_DIR = "C:\\db_backup\\toytec\\";
 
 
