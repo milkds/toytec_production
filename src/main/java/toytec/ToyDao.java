@@ -6,9 +6,7 @@ import org.hibernate.criterion.Projection;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class ToyDao {
     public static List<String> getItemLinksFromCategory(String category, Session session) {
@@ -156,11 +154,24 @@ public class ToyDao {
     }
 
     public static List<String> getItemsWithOptionsLinkList() {
-        List<String> links = new ArrayList<>();
-      //  links.add("https://www.toyteclifts.com/ks30lc-king-shocks-stage-3-race-kit-2008-land-cruiser-200-series.html");
-        links.add("https://www.toyteclifts.com/ttbosstac-2005-toytec-boss-suspension-system-for-05-tacoma.html");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Set<String> links = new HashSet<>();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ToyOption> crQ = builder.createQuery(ToyOption.class);
+        Root<ToyOption> root = crQ.from(ToyOption.class);
+        crQ.select(root.get("item")).distinct(true);
+        Query q = session.createQuery(crQ);
+        List<ToyItem> items = q.getResultList();
+        items.forEach(item->{
+            links.add(item.getItemLink());
+        });
+        session.close();
 
-        return links;
+
+      //  links.add("https://www.toyteclifts.com/ks30lc-king-shocks-stage-3-race-kit-2008-land-cruiser-200-series.html");
+       // links.add("https://www.toyteclifts.com/ttbosstac-2005-toytec-boss-suspension-system-for-05-tacoma.html");
+
+        return new ArrayList<>(links);
     }
 
     public static List<ToyItem> getItemsByWebLink(String itemLink, Session session) {

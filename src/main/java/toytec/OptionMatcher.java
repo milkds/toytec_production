@@ -30,23 +30,23 @@ public class OptionMatcher {
         List<ToyOption> deletedOptions = getDeletedOptions(newOptions, oldOptions);
 
         ComparisonHolder holder = compareOptionValues(newOptions, oldOptions);
+        result.setAddedOptions(addedOptions);
+        result.setAddedOptions(deletedOptions);
         if (noChangesInOptions(addedOptions, deletedOptions, holder)){
             return result;
         }
 
         //if no changes detected - we will return zero keeper before this method
         saveChangesToDB(itemsToCheck, newOptions, session);
-        result = buildMatchKeeper(firstItem, addedOptions, deletedOptions, holder);
+        result = buildMatchKeeper(firstItem, holder);
 
         return result;
     }
 
-    private OptionChangeKeeper buildMatchKeeper(ToyItem firstItem, List<ToyOption> addedOptions, List<ToyOption> deletedOptions, ComparisonHolder holder) {
+    private OptionChangeKeeper buildMatchKeeper(ToyItem firstItem, ComparisonHolder holder) {
         OptionChangeKeeper result = new OptionChangeKeeper();
 
         result.setHasChanges(true);
-        result.setAddedOptions(addedOptions);
-        result.setAddedOptions(deletedOptions);
         result.setPriceMap(holder.getPriceMap());
         result.setRedTextMap(holder.getRedTextMap());
         result.setItemWithChanges(firstItem);
