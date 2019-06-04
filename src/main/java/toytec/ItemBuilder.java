@@ -211,7 +211,6 @@ public class ItemBuilder {
                 }
             }
 
-
             for (WebElement choice: innerOptions){
                 ToyOption option = new ToyOption();
                 option.setOptionGroup(label.getText());

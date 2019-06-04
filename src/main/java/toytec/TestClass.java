@@ -18,6 +18,15 @@ import java.util.Locale;
 public class TestClass {
 
 
+    public static void checkOptionsFromDao(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<ToyItem> items = ToyDao.getItemsByWebLink("https://www.toyteclifts.com/ttbosstac-2005-toytec-boss-suspension-system-for-05-tacoma.html", session);
+        System.out.println(items.size());
+        items.get(0).getOptions().forEach(System.out::println);
+        session.close();
+        HibernateUtil.shutdown();
+    }
+
     public void getOptionPrices(){
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();

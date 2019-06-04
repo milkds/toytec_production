@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 
 public class ExcelExporter {
@@ -24,12 +25,12 @@ public class ExcelExporter {
         workbook.close();
     }
 
-    public static File prepareReportForEmail(Session session, Statistics statistics){
+    public static File prepareReportForEmail(Session session){
         Workbook workbook = writeDBtoExcel(session);
         File file = null;
         try {
             //file =  File.createTempFile("dbToExcel", ".xlsx");
-            String fName = Statistics.formatTime(statistics.getFinish());
+            String fName = Statistics.formatTime(Instant.now());
             fName = fName.replaceAll(":", "-");
             fName = fName.substring(0, fName.length()-3);
             fName = fName + "_ToyTec_parsedItems.xlsx";

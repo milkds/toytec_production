@@ -21,6 +21,9 @@ public class ToyOption {
     @Column(name = "OPTION_PRICE")
     private BigDecimal price;
 
+    @Column(name = "RED_TEXT")
+    private String redText;
+
     @ManyToOne
     @JoinColumn(name = "ITEM_ID")
     private ToyItem item;
@@ -32,6 +35,7 @@ public class ToyOption {
                 ", optionGroup='" + optionGroup + '\'' +
                 ", optionName='" + optionName + '\'' +
                 ", price=" + price +
+                ", redText='" + redText + '\'' +
                 '}';
     }
 
@@ -75,4 +79,11 @@ public class ToyOption {
         this.item = item;
     }
 
+    public String getRedText() {
+        return redText;
+    }
+
+    public void setRedText(String redText) {
+        this.redText = redText;
+    }
 }

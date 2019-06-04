@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +15,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLOutput;
 import java.util.*;
 import java.util.List;
@@ -114,8 +117,13 @@ public class SileniumUtil {
 
     private static WebDriver getDriver(){
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+      //  options.addArguments("--headless");
+        WebDriver driver = new ChromeDriver(options);
 
-        return new ChromeDriver();
+        //return new ChromeDriver();
+
+        return driver;
     }
 
     public static List<String> getItemsFromCategory(WebDriver driver) {
@@ -318,5 +326,17 @@ public class SileniumUtil {
         return awaitedElement;
     }
 
+    public static boolean hasConnection() {
+        URL testUrl= null;
+        try {
+            testUrl = new URL(TOYTEC_DEFAULT_PAGE);
+            URLConnection con=testUrl.openConnection();
+            con.getInputStream();
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
 
 }

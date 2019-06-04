@@ -9,7 +9,7 @@ import java.util.List;
 public class EmailSender {
 
     public static void sendMail(List<File> files, Statistics statistics){
-        MultiPartEmail  email = new MultiPartEmail ();
+        MultiPartEmail email = new MultiPartEmail ();
         email.setHostName("smtp.gmail.com");
         email.setSmtpPort(587);
         email.setAuthenticator(new DefaultAuthenticator("servergrisha@gmail.com", "ServerGrisha18"));
@@ -57,4 +57,26 @@ public class EmailSender {
         return attachments;
     }
 
+    public static void sendOptionReportByMail(List<File> files, String report) {
+        MultiPartEmail email = new MultiPartEmail ();
+        email.setHostName("smtp.gmail.com");
+        email.setSmtpPort(587);
+        email.setAuthenticator(new DefaultAuthenticator("servergrisha@gmail.com", "ServerGrisha18"));
+        email.setSSLOnConnect(true);
+
+        String subject = "Toytec Options check result";
+        try {
+            for (EmailAttachment attachment: getAttachments(files)){
+                email.attach(attachment);
+            }
+            email.setFrom("servergrisha@gmail.com");
+            email.setSubject(subject);
+            email.setMsg(report);
+            email.addTo("evp@artpolymer.com");
+            email.addTo("dmitriy.orders@gmail.com");
+            email.send();
+        } catch (EmailException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package toytec;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.*;
 
 /***
@@ -18,11 +21,82 @@ import java.util.*;
  */
 
 public class Controller {
+    private static final Logger logger = LogManager.getLogger(Controller.class.getName());
 
 
     public static void main(String[] args) {
-       // TestClass.testBigDecCompare();
-         new Controller().checkSiteForUpdates();
+      //  TestClass.checkOptionsFromDao();
+       //  new Controller().checkSiteForUpdates();
+       //  new Controller().checkOptionsForUpdates();
+    }
+
+
+    private void checkOptionsForUpdates(){
+        //db backup
+        DBSaver.backupDB();
+
+        OptionStatistics statistics = new OptionStatistics();
+
+        //first driver initialisation
+        WebDriver driver = SileniumUtil.getToytecDefaultPageDriver();
+
+        //getting item links from db to check
+        List<String> itemWithOptionsLinks = ToyDao.getItemsWithOptionsLinkList();
+
+        //getting current options for each item
+        Map<String, List<ToyOption>> itemOptionMap = new HashMap<>();
+        itemWithOptionsLinks.forEach(itemLink->{
+            List<ToyOption> options;
+            try {
+                options = new OptionBuilder().getOptions(driver, itemLink);
+                itemOptionMap.put(itemLink, options);
+            } catch (UnavailableOptionsException ignored) {
+            }
+        });
+
+        //matching options
+        List<OptionChangeKeeper> changeList = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        itemOptionMap.forEach((k,v)->{
+            OptionChangeKeeper keepr = new OptionMatcher(k).matchOptions(v, session);
+            if (keepr.hasChanges()){
+                changeList.add(keepr);
+            }
+        });
+
+        //building and sending report
+        String report = statistics.buildReport(changeList);
+        List<File> filesForEmail = new ArrayList<>();
+        filesForEmail.add(createReportTxt(report));
+        File excelDB = ExcelExporter.prepareReportForEmail(session);
+        filesForEmail.add(excelDB);
+        EmailSender.sendOptionReportByMail(filesForEmail, report);
+
+        //closing resources
+        session.close();
+        HibernateUtil.shutdown();
+        driver.quit();
+    }
+
+    private File createReportTxt(String report) {
+        File file = null;
+        try
+        {
+            String fName = Statistics.formatTime(Instant.now());
+            fName = fName.replaceAll(":", "-");
+            fName = fName.substring(0, fName.length()-3);
+            fName = fName+"_ToyTec_parseReport.txt";
+            fName = "C:/Dropbox/Shared_ServerGrisha/ToyTecParse/"+ fName;
+            file = new File(fName);
+            //write data on temporary file
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(report);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
     }
 
     private void checkDupes(){
@@ -87,26 +161,9 @@ public class Controller {
 
     private void sendResultsByEmail(StringBuilder sb, Session session, Statistics statistics) {
         List<File> files = new ArrayList<>();
-        File file = null;
-        try
-        {
-           // file = File.createTempFile("parseReport",  ".txt");
-            String fName = Statistics.formatTime(statistics.getFinish());
-            fName = fName.replaceAll(":", "-");
-            fName = fName.substring(0, fName.length()-3);
-            fName = fName+"_ToyTec_parseReport.txt";
-            fName = "C:/Dropbox/Shared_ServerGrisha/ToyTecParse/"+ fName;
-            file = new File(fName);
-            //write data on temporary file
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            bw.write(sb.toString());
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        File file = createReportTxt(sb.toString());
         files.add(file);
-        File excelDB = ExcelExporter.prepareReportForEmail(session, statistics);
+        File excelDB = ExcelExporter.prepareReportForEmail(session);
         files.add(excelDB);
 
         EmailSender.sendMail(files, statistics);

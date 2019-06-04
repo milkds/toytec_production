@@ -154,4 +154,23 @@ public class ToyDao {
 
         return options;
     }
+
+    public static List<String> getItemsWithOptionsLinkList() {
+        List<String> links = new ArrayList<>();
+      //  links.add("https://www.toyteclifts.com/ks30lc-king-shocks-stage-3-race-kit-2008-land-cruiser-200-series.html");
+        links.add("https://www.toyteclifts.com/ttbosstac-2005-toytec-boss-suspension-system-for-05-tacoma.html");
+
+        return links;
+    }
+
+    public static List<ToyItem> getItemsByWebLink(String itemLink, Session session) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ToyItem> crQ = builder.createQuery(ToyItem.class);
+        Root<ToyItem> root = crQ.from(ToyItem.class);
+        crQ.where(builder.and(builder.equal(root.get("itemLink"), itemLink),
+                              builder.equal(root.get("itemStatus"), "ACTIVE")));
+        Query q = session.createQuery(crQ);
+
+        return q.getResultList();
+    }
 }
