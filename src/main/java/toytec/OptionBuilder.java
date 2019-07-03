@@ -29,7 +29,7 @@ public class OptionBuilder {
         return parseOptionsFromPage(driver);
     }
 
-    private List<ToyOption> parseOptionsFromPage(WebDriver driver) throws UnavailableOptionsException {
+    public List<ToyOption> parseOptionsFromPage(WebDriver driver) throws UnavailableOptionsException {
         List<ToyOption> result = new ArrayList<>();
         List<WebElement> optionGroupsEls = driver.findElements(By.cssSelector("div[class^='field option']"));
         if (optionGroupsEls.size()==0){
@@ -111,7 +111,12 @@ public class OptionBuilder {
             double priceDouble;
             try {
                 priceDouble = Double.parseDouble(priceStr);
-                result.setPrice(new BigDecimal(priceDouble).setScale(2, RoundingMode.HALF_UP));
+                BigDecimal rawPrice = new BigDecimal(priceDouble).setScale(2, RoundingMode.HALF_UP);
+                if (!rawText.contains("+")){
+                    rawPrice = rawPrice.negate();
+                }
+                result.setPrice(rawPrice);
+
             }
             catch (NumberFormatException e){
                 logger.error("Couldn't extract price from string: " + priceStr);

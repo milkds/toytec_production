@@ -156,7 +156,7 @@ public class ItemBuilder {
         return availability;
     }
 
-    public List<ToyOption> getOptions(WebDriver driver) {
+    public List<ToyOption> getOptions2(WebDriver driver) {
         bad_sleep(5000);
         List<ToyOption> options = new ArrayList<>();
         try  {
@@ -241,6 +241,16 @@ public class ItemBuilder {
             }
 
         }
+
+        return options;
+    }
+    public List<ToyOption> getOptions(WebDriver driver) {
+       List<ToyOption> options = new ArrayList<>();
+       try {
+           options = new OptionBuilder().parseOptionsFromPage(driver);
+       }
+       catch (UnavailableOptionsException ignored){
+       }
 
         return options;
     }

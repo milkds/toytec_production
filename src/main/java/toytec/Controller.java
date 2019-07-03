@@ -26,14 +26,14 @@ public class Controller {
 
     public static void main(String[] args) {
       //  TestClass.checkOptionsFromDao();
-       //  new Controller().checkSiteForUpdates();
-         //new Controller().checkOptionsForUpdates();
+         new Controller().checkSiteForUpdates();
+      //   new Controller().checkOptionsForUpdates();
     }
 
 
     private void checkOptionsForUpdates(){
         //db backup
-        //DBSaver.backupDB();
+        DBSaver.backupDB();
 
         OptionStatistics statistics = new OptionStatistics();
 

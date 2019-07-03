@@ -31,25 +31,27 @@ public class OptionMatcher {
 
         ComparisonHolder holder = compareOptionValues(newOptions, oldOptions);
         result.setAddedOptions(addedOptions);
-        result.setAddedOptions(deletedOptions);
+        result.setDeletedOptions(deletedOptions);
         if (noChangesInOptions(addedOptions, deletedOptions, holder)){
             return result;
         }
 
         //if no changes detected - we will return zero keeper before this method
         saveChangesToDB(itemsToCheck, newOptions, session);
-        result = buildMatchKeeper(firstItem, holder);
+        result = buildMatchKeeper(firstItem, holder, addedOptions, deletedOptions);
 
         return result;
     }
 
-    private OptionChangeKeeper buildMatchKeeper(ToyItem firstItem, ComparisonHolder holder) {
+    private OptionChangeKeeper buildMatchKeeper(ToyItem firstItem, ComparisonHolder holder, List<ToyOption> addedOptions, List<ToyOption> deletedOptions) {
         OptionChangeKeeper result = new OptionChangeKeeper();
 
         result.setHasChanges(true);
         result.setPriceMap(holder.getPriceMap());
         result.setRedTextMap(holder.getRedTextMap());
         result.setItemWithChanges(firstItem);
+        result.setAddedOptions(addedOptions);
+        result.setDeletedOptions(deletedOptions);
 
         return result;
     }
