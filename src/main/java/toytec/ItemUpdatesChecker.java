@@ -181,6 +181,9 @@ public class ItemUpdatesChecker {
         catch (NullPointerException e){
             priceEl = doc.getElementsByClass("price").first();
         }
+        if (priceEl==null){
+            return new BigDecimal(0);
+        }
         price = priceEl.text();
         price = StringUtils.substringAfter(price,"$");
         price = price.replaceAll(",", "");

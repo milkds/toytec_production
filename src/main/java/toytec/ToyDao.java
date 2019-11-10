@@ -163,7 +163,9 @@ public class ToyDao {
         Query q = session.createQuery(crQ);
         List<ToyItem> items = q.getResultList();
         items.forEach(item->{
-            links.add(item.getItemLink());
+            if (item.getItemStatus().equals("ACTIVE")){
+                links.add(item.getItemLink());
+            }
         });
         session.close();
 
