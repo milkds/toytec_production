@@ -182,6 +182,7 @@ public class OptionStatistics {
         report.append(System.lineSeparator());
         report.append(item.getItemName());
         report.append(System.lineSeparator());
+
         report.append(item.getItemLink());
         report.append(System.lineSeparator());
     }
