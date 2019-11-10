@@ -178,10 +178,21 @@ public class OptionStatistics {
         report.append(System.lineSeparator());
         report.append(item.getSku());
         report.append(System.lineSeparator());
+        report.append(getCanadaSitelink(item.getSku()));
+        report.append(System.lineSeparator());
         report.append(item.getItemName());
         report.append(System.lineSeparator());
         report.append(item.getItemLink());
         report.append(System.lineSeparator());
+    }
+
+    private static String getCanadaSitelink(String sku) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://www.bilsteinlifts.com/?post_type=product&s=");
+        sb.append(sku);
+        sb.append("&asp_active=1&p_asid=1&p_asp_data=Y3VycmVudF9wYWdlX2lkPTk3Mjg4Jndvb19jdXJyZW5jeT1VU0QmcXRyYW5zbGF0ZV9sYW5nPTAmZmlsdGVyc19jaGFuZ2VkPTAmZmlsdGVyc19pbml0aWFsPTEmYXNwX2dlbiU1QiU1RD10aXRsZSZhc3BfZ2VuJTVCJTVEPWNvbnRlbnQmYXNwX2dlbiU1QiU1RD1leGNlcnB0JmN1c3RvbXNldCU1QiU1RD1wcm9kdWN0X3ZhcmlhdGlvbiZjdXN0b21zZXQlNUIlNUQ9cHJvZHVjdA==");
+
+        return sb.toString();
     }
 
     private static void appendVisualSeparator(StringBuilder report) {

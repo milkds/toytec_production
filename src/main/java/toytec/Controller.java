@@ -26,7 +26,7 @@ public class Controller {
 
     public static void main(String[] args) {
       //  TestClass.checkOptionsFromDao();
-       //  new Controller().checkSiteForUpdates();
+         new Controller().checkSiteForUpdates();
          //new Controller().checkOptionsForUpdates();
     }
 
